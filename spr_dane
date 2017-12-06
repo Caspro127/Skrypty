@@ -1,0 +1,33 @@
+#!/bin/bash
+#Skrypt sprawdza czy dane zawieraja wylacznie litery i cyfry
+
+validAlphaNum()
+{
+	#Funckja sprawdza argument, zwraca 0 jesli sklada sie on z samych wielkich, malych liter i cyfr
+	#w przeciwnym razie zwraca 1
+	
+	#usuniecie niedozwolonych znakow
+	validchars="$(echo $1 | sed -e 's/[^[:alnum:]]//g')"
+
+	if [ "$validchars" = "$1" ] ; then
+	 return 0
+	else
+	 return 1
+	fi
+}
+
+#Poczatek Glownej czesci skryptu
+#Usunac badz zamienic w komenentarz czesc ponizej jesli to bedzie czesc innego skryptu
+
+/bin/echo -n "Podaj dane: "
+read input
+
+#Sprawdzanie danych
+if ! validAlphaNum "$input" ; then
+  echo "Dane moga zawierac tylko litery lub cyfry."
+  exit 1 
+else 
+  echo "Dane poprawne."
+fi
+
+exit 0
