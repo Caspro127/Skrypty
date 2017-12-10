@@ -1,0 +1,22 @@
+#!/bin/bash
+# Skrypt remindme wyszukuje w pliku danych wiersze zgodne z podanym wzorcem,
+# a wywołany bez argumentów wyświetla całą zawartość pliku.
+
+rememberfile="$HOME/.remember"
+
+if [ ! -f $rememberfile ] ; then
+  echo "$0: Brak pliku danych." >&2
+  echo "Najpierw dodaj notatkę za pomocą skryptu 'remember'." >&2
+  exit 1
+fi
+
+if [ $# -eq 0 ] ; then
+  # Jeżeli nie ma kryteriów wyszukiwania, następuje wyświetlenie całej zawartości pliku.
+  more $rememberfile
+else
+  # W przeciwnym wypadku w pliku danych są wyszukiwane i wyświetlane
+  # na ekranie wiersze zawierające podane frazy.
+  grep -i -- "$@" $rememberfile | ${PAGER:-more}
+fi
+
+exit 0

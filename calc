@@ -1,0 +1,47 @@
+#!/bin/bash
+# Skrypt calc - terminalowy kalkulator, wykorzystujący polecenie bc.
+
+scale=2
+
+show_help()
+{
+cat << EOF
+  Kalkulator obsługuje standardowe działania arytmetyczne,
+  jak również następujące operacje:
+
+  a % b       reszta z dzielenia a/b
+  a ^ b       a podniesione do potęgi b
+  s(x)        sinus x, x w radianach
+  c(x)        cosinus x, x w radianach
+  a(x)        arcus tangens x, x w radianach
+  l(x)        logarytm naturalny x
+  e(x)        stała e podniesiona do potęgi x 
+  j(n,x)      funkcji Bessela rzędu n dla wartości x
+  scale N     dokładność N cyfr po przecinku (domyślnie 2)
+EOF
+}
+
+if [ $# -gt 0 ] ; then
+  exec scriptbc "$@"
+fi
+
+echo "Calc - prosty kalkulator. Aby uzyskać pomoc, wpisz 'help', aby wyjść, wpisz 'quit'."
+
+/bin/echo -n "calc> "
+
+while read command args
+do
+  case $command
+  in
+    quit|exit) exit 0                                  ;;
+    help|\?)   show_help                               ;;
+    scale)     scale=$args                             ;;
+    *)         scriptbc -p $scale "$command" "$args"   ;;
+  esac
+
+  /bin/echo -n "calc> "
+done
+
+echo ""
+
+exit 0

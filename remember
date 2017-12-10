@@ -1,0 +1,17 @@
+#!/bin/bash
+# Skrypt remember - prosty notes, uruchamiany w wierszu poleceń.
+
+rememberfile="$HOME/.remember"
+
+if [ $# -eq 0 ] ; then
+  # Odczytanie danych wpisanych przez użytkownika
+  # i dopisanie ich do pliku .rememberfile.
+  echo "Wpisz notatkę, na koniec naciskając ^D: "
+  echo `date "+%Y/%m/%d %H:%M:%S"` >> $rememberfile
+  cat - >> $rememberfile
+else
+  # Dopisanie podanych argumentów do pliku .remember.
+  echo "$@" >> $rememberfile
+fi
+ echo "" >> $rememberfile
+exit 0
