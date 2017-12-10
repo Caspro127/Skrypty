@@ -55,3 +55,22 @@ scriptbc - prosty kalkulator
 Uzycie: scriptbc 124122213/312
 
 ///////////////////////////////////////
+
+///////////////////////////////////////
+////////logrm///////////////////////
+///////////////////////////////////
+
+logrm - tworzenie logów usuwanych plikow z systemu operacyjnego 
+
+Użycie: logrm plik
+	logrm -s plik - tryb cichy - nie zostawia sladu w logach
+
+Mozna poleceniem: alias rm=logrm 
+dodac mozliwosc wywolywania skryptu zamiast oryginalnego rm, a dzieki temu dostaniemy informacje o usuwanych plikach przez uzytkownikow
+//////////////////////////////////////////
+
+/////////////////////////////////////////
+////////////////formatdir///////////////
+////////////////////////////////////////
+formatdir - ls z widocznoscia co zawieraja podkatalogi oraz dobrze widoczna wielkoscia plikow
+
