@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Skrypt getlinks wyświetlający wszystkie względne i bezwzględne
+# odnośniki zawarte w stronie o podanym adresie URL. Skrypt ma 
+# trzy argumenty: -d wyświetla tylko główną domenę dla każdego
+# odnośnika, -r wyświetla tylko wewnętrzne odnośniki (tj.
+# prowadzące do stron tej samej witryny), natomiast -a wyświetla
+# tylko zewnętrzne odnośniki (przeciwieństwo argumentu -r).
+
+if [ $# -eq 0 ] ; then
+  echo "Użycie: $0 [-d|-r|-a] url"  >&2
+  echo "-d=tylko domeny, -r=tylko odnośniki wewnętrzne, -a=tylko odnośniki zewnętrzne" >&2
+  exit 1
+fi
+
+if [ $# -gt 1 ] ; then
+  case "$1" in
+    -d) lastcmd="cut -d/ -f3 | sort | uniq"
+        shift
+        ;;
+    -r) basedomain="http://$(echo $2 | cut -d/ -f3)/"
+        lastcmd="grep \"^$basedomain\" | sed \"s|$basedomain||g\" | sort | uniq"
+        shift
+        ;;
+    -a) basedomain="http://$(echo $2 | cut -d/ -f3)/"
+        lastcmd="grep -v \"^$basedomain\" | sort | uniq"
+        shift
+        ;;
+     *) echo "$0: nieznany argument: $1" >&2; exit 1
+  esac
+else
+  lastcmd="sort | uniq"
+fi
+
+lynx -dump "$1" | \
+sed -n '/^References$/,$p' | \
+  grep -E '[[:digit:]]+\.' | \
+  awk '{print $2}' | \
+  cut -d\? -f1 | \
+eval $lastcmd
+
+exit 0
