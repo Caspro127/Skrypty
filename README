@@ -1,1 +1,57 @@
 Repozytorium na skrypty basha
+
+Plik kopiuj.sh kopiuje pliki z source do destination pokazując aktualny stan kopiowania
+Użycie:
+kopiuj.sh source desitnation 
+
+////////////////////////////////////
+//////////inpath//////////////////////
+/////////////////////////////////////
+Skrypt inpath sprawdza czy dana komenda znajduje sie w folderach zmiennej PATH
+////
+Uzycie:
+inpath komenda
+
+//////////////////////////////////////////
+
+//////////////////////////////////////////
+/////////////spr_dane//////////////////////
+/////////////////////////////////////////
+Dodano plik spr_dane ktory sprawdza czy podalismy mu tylko dane numeryczne i litery
+Gdy dane nie beda wylacznie literami i liczbami otrzymamy stosowna informacje
+/////////////
+Uzycie spr_dane "Dane do sprawdzenia"
+
+/////////////////////////////////////////
+
+////////////////////////////////////////
+////////normdate////////////////////////
+/////////////////////////////////////////
+normdate - odpowiada za normalizacje dat podawanych do skryptu - zwraca daty w formacie DD MMM RRRR - miesiac podaje wg nazwy np. lip
+
+///////
+Uzycie: normdate 3 2 2013
+	normdate 12 grudnia 2010
+
+///////////////////////////////////////
+
+///////////////////////////////////////
+///////////////nicenumber/////////////
+//////////////////////////////////////
+nicenumber - wprowadza formatowanie duzych liczb rozdzielajac tysiace milliony biliony itp.
+
+Użycie: nicenumber 123456789
+	nicenumber -d . -t , 123456789,1223344
+
+	-d - pozwala wprowadzic znak, ktory zostanie uzyty do oddzielenia jednosci od wartosci ulamkowych
+	-t - pozwala wprowadzic znak, ktory zostanie uzyty do oddzielenia kolejnych poteg 10
+///////////////////////////////////////////
+
+////////////////////////////////////////
+////////scriptbc//////////////////////
+///////////////////////////////////////
+scriptbc - prosty kalkulator
+
+Uzycie: scriptbc 124122213/312
+
+///////////////////////////////////////

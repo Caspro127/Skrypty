@@ -1,0 +1,69 @@
+#!/bin/bash 
+# Skrypt nicenumber wyświetla zadaną liczbę w czytelnej formie.
+# Należy w nim określić wartości zmiennych DD (separator dziesiętny) i
+# TD (separator tysięcy). Wynik jest zapisywany w zmiennej nicenum,
+# a jeżeli zostanie podany drugi argument, również jest wyświetlany w kanale stdout.
+
+nicenumber()
+{
+  # Zwróć uwagę, że przyjęte jest założenie, iż separatorem dziesiętnym we wprowadzonej
+  # wartości jest przecinek. Separatorem dziesiętnym w wyniku jest również przecinek,
+  # chyba że za pomocą argumentu -d zostanie określony inny znak.
+
+  integer=$(echo $1 | cut -d, -f1)        # Część liczby po lewej stronie przecinka.
+  decimal=$(echo $1 | cut -d, -f2)        # Część liczby po prawej stronie przecinka.
+
+  # Sprawdzenie, czy wprowadzona liczba zawiera część ułamkową.
+  if [ "$decimal" != "$1" ]; then
+    # Liczba zawiera część ułamkową, więc należy ją uwzględnić.
+    result="${DD:= ','}$decimal"
+  fi
+
+  thousands=$integer
+
+  while [ $thousands -gt 999 ]; do
+    remainder=$(($thousands % 1000))    # Trzy najmniej znaczące cyfry.
+
+    # "Reszta" musi składać się z trzech cyfr. Czy trzeba ją uzupełnić zerami?
+    while [ ${#remainder} -lt 3 ] ; do  # Dodanie wiodących zer.
+      remainder="0$remainder"
+    done
+
+    result="${TD:=" "}${remainder}${result}"    # Przygotowanie wyniku od strony
+                                                # prawej do lewej.
+    thousands=$(($thousands / 1000))    # Nowa wartość dla zmiennej remainder.
+  done
+
+  nicenum="${thousands}${result}"
+  if [ ! -z $2 ] ; then
+    echo $nicenum
+  fi
+}
+
+DD=","  # Separator dziesiętny oddzielający część całkowitą od ułamkowej.
+TD=" "  # Separator tysięcy, rozdzielający grupy trzech cyfr.
+
+# POCZĄTEK GŁÓWNEJ CZĘŚCI SKRYPTU. USUŃ LUB ZAMIEŃ W KOMENTARZ KOD PONIŻEJ TEGO WIERSZA,
+# JEŻELI TEN SKRYPT BĘDZIE WYKORZYSTYWANY W INNYCH SKRYPTACH.
+# =================
+while getopts "d:t:" opt; do
+  case $opt in
+    d ) DD="$OPTARG"    ;;
+    t ) TD="$OPTARG"    ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+# Weryfikacja poprawności danych
+if [ $# -eq 0 ] ; then
+  echo "Użycie: $(basename $0) [-d c] [-t c] liczba"
+  echo "  -d określa separator dziesiętny (domyślnie przecinek)"
+  echo "  -t określa separator tysięcy (domyślnie spacja)"
+  exit 0
+fi
+
+nicenumber $1 1         # Drugi argument powoduje, że funkcja nicenumber
+                        # wyświetla wynik za pomocą polecenia 'echo'.
+
+exit 0
+

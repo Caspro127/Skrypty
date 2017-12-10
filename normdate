@@ -1,0 +1,44 @@
+#!/bin/bash
+# Skrypt normdate zamieniający oznaczenie miesiąca na trzyliterowy skrót nazwy.
+# Zawiera funkcję wykorzystaną w skrypcie nr 7, valid-date, zwracającą wartość 0,
+# jeżeli data jest poprawna.
+
+monthNumToName()
+{
+  # Przypisanie zmiennej 'month' odpowiedniej wartości.
+  case $1 in
+    1 ) month="sty"    ;;  2 ) month="lut"    ;;
+    3 ) month="mar"    ;;  4 ) month="kwi"    ;;
+    5 ) month="maj"    ;;  6 ) month="cze"    ;;
+    7 ) month="lip"    ;;  8 ) month="sie"    ;;
+    9 ) month="wrz"    ;;  10) month="paź"    ;;
+    11) month="lis"    ;;  12) month="gru"    ;;
+    * ) echo "$0: Błędny numer miesiąca $1" >&2; exit 1
+  esac
+  return 0
+}
+
+# POCZĄTEK GŁÓWNEJ CZĘŚCI SKRYPTU. USUŃ LUB ZAMIEŃ W KOMENTARZ KOD PONIŻEJ TEGO WIERSZA,
+# JEŻELI TEN SKRYPT BĘDZIE WYKORZYSTYWANY W INNYCH SKRYPTACH.
+# =================
+# Weryfikacja danych
+if [ $# -ne 3 ] ; then
+  echo "Użycie: $0 dzień miesiąc rok " >&2
+  echo "Typowe formaty: '3 sierpnia 2002', '3 8 2002'" >&2
+  exit 1
+fi
+if [ $3 -le 99 ] ; then
+  echo "$0: rok musi być liczbą czterocyfrową." >&2; exit 1
+fi
+
+# Czy miesiąc jest podany w postaci liczby?
+if [ -z $(echo $2|sed 's/[[:digit:]]//g')  ]; then
+  monthNumToName $2
+else
+ # Normalizacja nazwy miesiąca: tylko trzy pierwsze litery.
+  month="$(echo $2|cut -c1-3 | tr '[:upper:]' '[:lower:]')"
+fi
+
+echo $1 $month $3
+
+exit 0
