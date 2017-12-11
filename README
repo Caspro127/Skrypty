@@ -74,5 +74,27 @@ dodac mozliwosc wywolywania skryptu zamiast oryginalnego rm, a dzieki temu dosta
 ////////////////////////////////////////
 formatdir - ls z widocznoscia co zawieraja podkatalogi oraz dobrze widoczna wielkoscia plikow
 
-Dopisac remindme remember - notatnik, str 112 - dodac usuwanei notatek
-Stworzyc na tej podstawie kalendarz z dodawaniem terminow wizyt 
+Uzycie:
+	formatdir
+	formatdir /
+
+////////////////////////////////////////
+/////////////remember//////////////////
+///////////////////////////////////////
+remember - umozliwia zapisywanie notatek
+
+Uzycie: $remember
+	$notatka do wgrania #CTRL + D konczymy wprowadzanie tekstu
+
+/////////////////////////////////////////
+////////////remindme///////////////////
+//////////////////////////////////////
+remindme w polaczeniu z remember odtwarza zapisane notatki
+
+Uzycie: remindme
+	remindme Wizyta
+
+///////////////////////////////////// 
+
+56-zipcode - przerobic na wersje PL
+
